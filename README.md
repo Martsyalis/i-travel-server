@@ -1,6 +1,6 @@
-# I-Travel-server
+# Travel Share Server
 
-A Server to support the i-Travel app.
+A Server to support the travel share app.
 
 An app that lets you explore the wide world of travel with pictures and stories from people who have traveled there. 
 
@@ -15,7 +15,7 @@ Sign up for AWS. Get the KEY, SECRET and make a bucket.
 1. Clone repository and change directory.
 
     ```
-    git clone https://github.com/tbdello/i-travel-server 
+    git clone https://github.com/martsyalis/travel-share-server
     ```
 
 1. Install dependencies.
@@ -36,7 +36,7 @@ Sign up for AWS. Get the KEY, SECRET and make a bucket.
 
 This supports an app , found at:
 
-https://github.com/tbdello/i-travel
+https://github.com/martsyalis/travel-share
 
 The default port is 3001.
 
