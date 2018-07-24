@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 function setOfCachedUrls(e) {
   return e
     .keys()
@@ -12,24 +12,24 @@ function setOfCachedUrls(e) {
     });
 }
 var precacheConfig = [
-    ["/index.html", "2e7ace580002f1834c3cf89ad55cc774"],
-    ["/static/css/main.a27dcf82.css", "9d2f6b43a9bcdd5d839bfb874913652d"],
-    ["/static/js/main.c4613d40.js", "36082613516d01e0a299584757bff262"],
-    ["/static/media/favicon.88d4fcfa.png", "88d4fcfa41340225512c08aa2a8ad4d0"],
-    ["/static/media/latte.b42b60f0.jpg", "b42b60f0ac837763c5979c1a62d1b00d"],
-    ["/static/media/logo.88d4fcfa.png", "88d4fcfa41340225512c08aa2a8ad4d0"]
+    ['/index.html', '2e7ace580002f1834c3cf89ad55cc774'],
+    ['/static/css/main.a27dcf82.css', '9d2f6b43a9bcdd5d839bfb874913652d'],
+    ['/static/js/main.c4613d40.js', '36082613516d01e0a299584757bff262'],
+    ['/static/media/favicon.88d4fcfa.png', '88d4fcfa41340225512c08aa2a8ad4d0'],
+    ['/static/media/latte.b42b60f0.jpg', 'b42b60f0ac837763c5979c1a62d1b00d'],
+    ['/static/media/logo.88d4fcfa.png', '88d4fcfa41340225512c08aa2a8ad4d0']
   ],
   cacheName =
-    "sw-precache-v3-sw-precache-webpack-plugin-" +
-    (self.registration ? self.registration.scope : ""),
+    'sw-precache-v3-sw-precache-webpack-plugin-' +
+    (self.registration ? self.registration.scope : ''),
   ignoreUrlParametersMatching = [/^utm_/],
   addDirectoryIndex = function(e, t) {
     var n = new URL(e);
-    return "/" === n.pathname.slice(-1) && (n.pathname += t), n.toString();
+    return '/' === n.pathname.slice(-1) && (n.pathname += t), n.toString();
   },
   cleanResponse = function(e) {
     if (!e.redirected) return Promise.resolve(e);
-    return ("body" in e ? Promise.resolve(e.body) : e.blob()).then(function(t) {
+    return ('body' in e ? Promise.resolve(e.body) : e.blob()).then(function(t) {
       return new Response(t, {
         headers: e.headers,
         status: e.status,
@@ -42,9 +42,9 @@ var precacheConfig = [
     return (
       (r && a.pathname.match(r)) ||
         (a.search +=
-          (a.search ? "&" : "") +
+          (a.search ? '&' : '') +
           encodeURIComponent(t) +
-          "=" +
+          '=' +
           encodeURIComponent(n)),
       a.toString()
     );
@@ -59,12 +59,12 @@ var precacheConfig = [
   stripIgnoredUrlParameters = function(e, t) {
     var n = new URL(e);
     return (
-      (n.hash = ""),
+      (n.hash = ''),
       (n.search = n.search
         .slice(1)
-        .split("&")
+        .split('&')
         .map(function(e) {
-          return e.split("=");
+          return e.split('=');
         })
         .filter(function(e) {
           return t.every(function(t) {
@@ -72,13 +72,13 @@ var precacheConfig = [
           });
         })
         .map(function(e) {
-          return e.join("=");
+          return e.join('=');
         })
-        .join("&")),
+        .join('&')),
       n.toString()
     );
   },
-  hashParamName = "_sw-precache",
+  hashParamName = '_sw-precache',
   urlsToCacheKeys = new Map(
     precacheConfig.map(function(e) {
       var t = e[0],
@@ -88,7 +88,7 @@ var precacheConfig = [
       return [r.toString(), a];
     })
   );
-self.addEventListener("install", function(e) {
+self.addEventListener('install', function(e) {
   e.waitUntil(
     caches
       .open(cacheName)
@@ -97,13 +97,13 @@ self.addEventListener("install", function(e) {
           return Promise.all(
             Array.from(urlsToCacheKeys.values()).map(function(n) {
               if (!t.has(n)) {
-                var r = new Request(n, { credentials: "same-origin" });
+                var r = new Request(n, { credentials: 'same-origin' });
                 return fetch(r).then(function(t) {
                   if (!t.ok)
                     throw new Error(
-                      "Request for " +
+                      'Request for ' +
                         n +
-                        " returned a response with status " +
+                        ' returned a response with status ' +
                         t.status
                     );
                   return cleanResponse(t).then(function(t) {
@@ -120,7 +120,7 @@ self.addEventListener("install", function(e) {
       })
   );
 }),
-  self.addEventListener("activate", function(e) {
+  self.addEventListener('activate', function(e) {
     var t = new Set(urlsToCacheKeys.values());
     e.waitUntil(
       caches
@@ -139,20 +139,20 @@ self.addEventListener("install", function(e) {
         })
     );
   }),
-  self.addEventListener("fetch", function(e) {
-    if ("GET" === e.request.method) {
+  self.addEventListener('fetch', function(e) {
+    if ('GET' === e.request.method) {
       var t,
         n = stripIgnoredUrlParameters(
           e.request.url,
           ignoreUrlParametersMatching
         ),
-        r = "index.html";
+        r = 'index.html';
       (t = urlsToCacheKeys.has(n)) ||
         ((n = addDirectoryIndex(n, r)), (t = urlsToCacheKeys.has(n)));
-      var a = "/index.html";
+      var a = '/index.html';
       !t &&
-        "navigate" === e.request.mode &&
-        isPathWhitelisted(["^(?!\\/__).*"], e.request.url) &&
+        'navigate' === e.request.mode &&
+        isPathWhitelisted(['^(?!\\/__).*'], e.request.url) &&
         ((n = new URL(a, self.location).toString()),
         (t = urlsToCacheKeys.has(n))),
         t &&
@@ -163,7 +163,7 @@ self.addEventListener("install", function(e) {
                 return e.match(urlsToCacheKeys.get(n)).then(function(e) {
                   if (e) return e;
                   throw Error(
-                    "The cached response that was expected is missing."
+                    'The cached response that was expected is missing.'
                   );
                 });
               })

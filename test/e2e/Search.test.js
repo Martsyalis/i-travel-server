@@ -1,36 +1,36 @@
-const request = require("./request");
-const { assert } = require("chai");
-const db = require("./db");
+const request = require('./request');
+const { assert } = require('chai');
+const db = require('./db');
 
-describe("Search API", () => {
+describe('Search API', () => {
   let testToken = null;
 
   const expArr = [
-    { title: "Best1", location: "New1", tags: ["hard", "soft"] },
-    { title: "Best2", location: "New2", tags: ["soft"] },
-    { title: "Best3", location: "New3" },
-    { title: "Best4", location: "New4" },
-    { title: "Best5", location: "New5" },
-    { title: "Best6", location: "New6" },
-    { title: "Best7", location: "New7" },
-    { title: "Best8", location: "New8" },
-    { title: "Best9", location: "New9" },
-    { title: "Best10", location: "New10" },
-    { title: "Best11", location: "New11" },
-    { title: "Best12", location: "New12" },
-    { title: "Best13", location: "New13" },
-    { title: "Best14", location: "New14" },
-    { title: "Best15", location: "New15" },
-    { title: "Best16", location: "New16" },
-    { title: "Best17", location: "New17" }
+    { title: 'Best1', location: 'New1', tags: ['hard', 'soft'] },
+    { title: 'Best2', location: 'New2', tags: ['soft'] },
+    { title: 'Best3', location: 'New3' },
+    { title: 'Best4', location: 'New4' },
+    { title: 'Best5', location: 'New5' },
+    { title: 'Best6', location: 'New6' },
+    { title: 'Best7', location: 'New7' },
+    { title: 'Best8', location: 'New8' },
+    { title: 'Best9', location: 'New9' },
+    { title: 'Best10', location: 'New10' },
+    { title: 'Best11', location: 'New11' },
+    { title: 'Best12', location: 'New12' },
+    { title: 'Best13', location: 'New13' },
+    { title: 'Best14', location: 'New14' },
+    { title: 'Best15', location: 'New15' },
+    { title: 'Best16', location: 'New16' },
+    { title: 'Best17', location: 'New17' }
   ];
 
   beforeEach(() => db.drop());
 
   beforeEach(() => {
     return request
-      .post("/api/auth/signup")
-      .send({ name: "Testing", email: "Testing@test.com", password: "secret" })
+      .post('/api/auth/signup')
+      .send({ name: 'Testing', email: 'Testing@test.com', password: 'secret' })
       .then(({ body }) => (testToken = body.token));
   });
 
@@ -38,43 +38,43 @@ describe("Search API", () => {
     return Promise.all(
       expArr.map(exp => {
         return request
-          .post("/api/experiences")
-          .set("Authorization", testToken)
+          .post('/api/experiences')
+          .set('Authorization', testToken)
           .send(exp);
       })
     );
   });
 
-  it("/search", () => {
-    return request.get("/api/experiences/search").then(({ body }) => {
+  it('/search', () => {
+    return request.get('/api/experiences/search').then(({ body }) => {
       assert.equal(body.length, 16);
     });
   });
 
-  it("/search with limit", () => {
-    return request.get("/api/experiences/search?limit=2").then(({ body }) => {
+  it('/search with limit', () => {
+    return request.get('/api/experiences/search?limit=2').then(({ body }) => {
       assert.equal(body.length, 2);
     });
   });
 
-  it("/search by location", () => {
+  it('/search by location', () => {
     return request
-      .get("/api/experiences/search?location=New1")
+      .get('/api/experiences/search?location=New1')
       .then(({ body }) => {
         assert.equal(body.length, 1);
       });
   });
 
-  it("/search by both", () => {
+  it('/search by both', () => {
     return request
-      .get("/api/experiences/search?location=New1&&tag=hard")
+      .get('/api/experiences/search?location=New1&&tag=hard')
       .then(({ body }) => {
         assert.equal(body.length, 1);
       });
   });
 
-  it("/search by tags", () => {
-    return request.get("/api/experiences/search?tag=soft").then(({ body }) => {
+  it('/search by tags', () => {
+    return request.get('/api/experiences/search?tag=soft').then(({ body }) => {
       assert.equal(body.length, 2);
     });
   });

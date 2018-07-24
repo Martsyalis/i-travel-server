@@ -1,31 +1,31 @@
-const { assert } = require("chai");
-const User = require("../../lib/models/user");
+const { assert } = require('chai');
+const User = require('../../lib/models/user');
 
-describe("User Model", () => {
+describe('User Model', () => {
   let user = null;
   before(() => {
     user = new User({
-      name: "Goat",
-      email: "Goat@Goat.com",
-      experiences: "59eb914ffcd9df5be2d25d18"
+      name: 'Goat',
+      email: 'Goat@Goat.com',
+      experiences: '59eb914ffcd9df5be2d25d18'
     });
-    user.generateHash("secret");
+    user.generateHash('secret');
   });
 
-  it("should validate the user model", () => {
+  it('should validate the user model', () => {
     assert.equal(user.validateSync(), undefined);
   });
 
-  it("checks required fields", () => {
+  it('checks required fields', () => {
     const badUser = new User();
     return badUser.validate().then(
       () => {
-        throw new Error("User validation error");
+        throw new Error('User validation error');
       },
       ({ errors }) => {
-        assert.equal(errors.name.kind, "required");
-        assert.equal(errors.hash.kind, "required");
-        assert.equal(errors.email.kind, "required");
+        assert.equal(errors.name.kind, 'required');
+        assert.equal(errors.hash.kind, 'required');
+        assert.equal(errors.email.kind, 'required');
       }
     );
   });
