@@ -1,57 +1,58 @@
-const request = require('./request');
-const { assert } = require('chai');
-const db = require('./db');
+const request = require("./request");
+const { assert } = require("chai");
+const db = require("./db");
 
-describe('Auth API', () => {
-    let testToken = null;
+describe("Auth API", () => {
+  let testToken = null;
 
-    beforeEach( () => db.drop());
-    
-    beforeEach( () => {
-        return request
-            .post('/api/auth/signup')
-            .send({name: 'Testing', email: 'Testing@test.com' , password: 'secret'})
-            .then( ( {body} ) => testToken = body.token);
-    });
+  beforeEach(() => db.drop());
 
-    it('should sign up a new user and return a token', () => {
-        assert.ok(testToken);
-    });
+  beforeEach(() => {
+    return request
+      .post("/api/auth/signup")
+      .send({ name: "Testing", email: "Testing@test.com", password: "secret" })
+      .then(({ body }) => (testToken = body.token));
+  });
 
-    it('can not sign up without password', () => {
-        return request
-            .post('/api/auth/signup')
-            .send({
-                name: 'Testie',
-                email: 'Testing@test.com'
-            })
-            .then(
-                () => {throw new Error('Unexpected success which is bad');},
-                err => {
-                    assert.equal(err.status, 400);
-                }
-            );
-    });
+  it("should sign up a new user and return a token", () => {
+    assert.ok(testToken);
+  });
 
-    it('should sign in with the same credentials',() => {
-        return request
-            .post('/api/auth/signin')
-            .send({
-                email: 'Testing@test.com',
-                password: 'secret'
-            })
-            .then( ({ body }) => {
-                assert.ok(body.token);
-            });
-    });
+  it("can not sign up without password", () => {
+    return request
+      .post("/api/auth/signup")
+      .send({
+        name: "Testie",
+        email: "Testing@test.com"
+      })
+      .then(
+        () => {
+          throw new Error("Unexpected success which is bad");
+        },
+        err => {
+          assert.equal(err.status, 400);
+        }
+      );
+  });
 
-    it('should get back a user id', () => {
-        return request
-            .get('/api/auth/getuser')
-            .set('Authorization', testToken)
-            .then( ({ body }) => {
-                assert.ok(body.user);
-            });
-    });
+  it("should sign in with the same credentials", () => {
+    return request
+      .post("/api/auth/signin")
+      .send({
+        email: "Testing@test.com",
+        password: "secret"
+      })
+      .then(({ body }) => {
+        assert.ok(body.token);
+      });
+  });
 
+  it("should get back a user id", () => {
+    return request
+      .get("/api/auth/getuser")
+      .set("Authorization", testToken)
+      .then(({ body }) => {
+        assert.ok(body.user);
+      });
+  });
 });
